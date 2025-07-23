@@ -262,22 +262,15 @@ void draw_ring(
 ) {
     x_center *= aspect;
 
-    int x_start = floor(x_center - radius * aspect - width);
-    int x_end = ceil(x_center + radius * aspect + width);
-    int y_start = floor(y_center - radius - width);
-    int y_end = ceil(y_center + radius + width);
-
-    float cathesus1;
-    float cathesus2;
     float distance;
-    for (int y = y_start; y <= y_end; y++) {
-        for (int x = x_start; x <= x_end; x++) {
-            cathesus1 = fabsf(x_center - x) / aspect;
-            cathesus2 = fabsf(y_center - y);
-            distance = hypotf(cathesus1, cathesus2);
-
+    for (int dy = 0; dy <= radius + width; dy++) {
+        for (int dx = 0; dx <= radius * aspect + width; dx++) {
+            distance = hypotf(dx / aspect, dy);
             if (fabsf(distance - radius) < width) {
-                set_canvas_dot(canvas, x, y, state);
+                set_canvas_dot(canvas, x_center + dx,  y_center + dy, state);
+                set_canvas_dot(canvas, x_center - dx,  y_center + dy, state);
+                set_canvas_dot(canvas, x_center + dx,  y_center - dy, state);
+                set_canvas_dot(canvas, x_center - dx,  y_center - dy, state);
             }
         }
     }
@@ -292,22 +285,15 @@ void draw_circle(
 ) {
     x_center *= aspect;
 
-    int x_start = floor(x_center - radius * aspect);
-    int x_end = ceil(x_center + radius * aspect);
-    int y_start = floor(y_center - radius);
-    int y_end = ceil(y_center + radius);
-
-    float cathesus1;
-    float cathesus2;
     float distance;
-    for (int y = y_start; y <= y_end; y++) {
-        for (int x = x_start; x <= x_end; x++) {
-            cathesus1 = fabsf(x_center - x) / aspect;
-            cathesus2 = fabsf(y_center - y);
-            distance = hypotf(cathesus1, cathesus2);
-
+    for (int dy = 0; dy <= radius; dy++) {
+        for (int dx = 0; dx <= radius * aspect; dx++) {
+            distance = hypotf(dx / aspect, dy);
             if (distance <= radius) {
-                set_canvas_dot(canvas, x, y, state);
+                set_canvas_dot(canvas, x_center + dx,  y_center + dy, state);
+                set_canvas_dot(canvas, x_center - dx,  y_center + dy, state);
+                set_canvas_dot(canvas, x_center + dx,  y_center - dy, state);
+                set_canvas_dot(canvas, x_center - dx,  y_center - dy, state);
             }
         }
     }
